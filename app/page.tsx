@@ -23,7 +23,7 @@ export default function Home() {
   // ---------- Splash intro ----------
   const [showSplash, setShowSplash] = useState(true)
   useEffect(() => {
-    const t = setTimeout(() => setShowSplash(false), 3000)
+    const t = setTimeout(() => setShowSplash(false), 3300)
     return () => clearTimeout(t)
   }, [])
 
@@ -206,7 +206,7 @@ export default function Home() {
   const [showNeedHelp, setShowNeedHelp] = useState(false)
   const [needHelpOption, setNeedHelpOption] = useState("cannot-see-bill")
 
-  // ---------- Download receipt ----------
+  // ---------- Download receipt (no barcode) ----------
   const handleDownloadReceipt = () => {
     const receiptContent = `
 <!DOCTYPE html>
@@ -235,9 +235,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
 .totals-table{text-align:right;min-width:220px;margin-left:auto;}
 .totals-table div{margin-bottom:6px;font-size:13px;display:flex;justify-content:space-between;gap:24px;}
 .net-total{font-size:17px;font-weight:700;color:#005F6B;border-top:2px solid #005F6B;padding-top:6px;margin-top:6px;}
-.barcode-section{text-align:center;margin:24px 0;padding:16px 0;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;}
-.barcode-section img{height:50px;}
-.footer{text-align:center;margin-top:20px;font-size:12px;color:#555;}
+.footer{text-align:center;margin-top:24px;padding-top:16px;border-top:1px dashed #ccc;font-size:12px;color:#555;}
 .footer strong{color:#005F6B;}
 .powered{margin-top:10px;font-size:10px;color:#003323;font-weight:700;}
 @media print{body{-webkit-print-color-adjust:exact;width:100%;padding:0;}}
@@ -294,11 +292,6 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
   <div class="net-total"><span>Total Paid</span><span>₹${currentReceipt.total.toFixed(2)}</span></div>
 </div>
 
-<div class="barcode-section">
-  <div style="font-family:monospace;letter-spacing:2px;font-size:20px;">|| ||| | |||| || | ||| |||| | || |||</div>
-  <p style="margin-top:6px;font-size:11px;">${currentReceipt.id}</p>
-</div>
-
 <div class="footer">
   <p><strong>Thank you for choosing Himalaya Wellness.</strong></p>
   <p>Store Email: contactus@himalayawellness.com &nbsp;|&nbsp; Store Contact: 080-67549111</p>
@@ -349,10 +342,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         @keyframes barThin { from { width: 0; } to { width: 100%; } }
         @keyframes logoFadeIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
         @keyframes splashFadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
-        .bar-thick { animation: barThick 0.6s ease-out forwards; }
-        .bar-thin { animation: barThin 0.6s ease-out forwards; animation-delay: 0.3s; width: 0; }
-        .logo-fade { animation: logoFadeIn 0.6s ease-out forwards; animation-delay: 0.9s; opacity: 0; }
-        .splash-wrap { animation: splashFadeOut 0.5s ease-in forwards; animation-delay: 2.5s; }
+        .bar-thick { animation: barThick 0.6s ease-out forwards; animation-delay: 0s; width: 0; }
+        .bar-thin { animation: barThin 0.6s ease-out forwards; animation-delay: 0.6s; width: 0; }
+        .logo-fade { animation: logoFadeIn 0.6s ease-out forwards; animation-delay: 1.3s; opacity: 0; }
+        .splash-wrap { animation: splashFadeOut 0.5s ease-in forwards; animation-delay: 2.8s; }
       `}</style>
 
       <div
@@ -362,21 +355,23 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
       >
         {/* ---------------- Splash intro overlay ---------------- */}
         {showSplash && (
-          <div className="splash-wrap fixed inset-0 z-[9999] bg-[#F4F1EC] flex flex-col items-center justify-center max-w-md mx-auto">
-            <div className="w-full flex flex-col gap-1.5 mb-8">
+          <div className="splash-wrap fixed inset-0 z-[9999] bg-[#F4F1EC] flex flex-col items-center max-w-md mx-auto">
+            {/* Bars pinned to top */}
+            <div className="w-full flex flex-col gap-1.5 mt-12">
               <div className="bar-thick h-4 bg-[#005F6B]" />
               <div className="bar-thin h-2 bg-[#005F6B]" />
             </div>
-            <div className="logo-fade flex flex-col items-center">
-              <Image
-                src="/images/design-mode/himalaya-logo.png"
-                alt="Himalaya Wellness"
-                width={110}
-                height={110}
-                className="object-contain"
-              />
-              <div className="mt-2 text-[#005F6B] text-sm tracking-[0.3em] font-medium">
-                SINCE 1930
+
+            {/* Logo appears centered in remaining space, only after bars finish */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="logo-fade">
+                <Image
+                  src="/images/design-mode/himalaya-logo.png"
+                  alt="Himalaya Wellness"
+                  width={140}
+                  height={140}
+                  className="object-contain"
+                />
               </div>
             </div>
           </div>
@@ -385,30 +380,27 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {/* ---------------- Main content ---------------- */}
         <div className={`flex flex-col w-full transition-opacity duration-500 ${showSplash ? "opacity-0" : "opacity-100"}`}>
 
-          {/* Promo Banner */}
-          <div className="relative w-full aspect-[2.4/1] bg-[#F4F1EC] overflow-hidden">
+          {/* Promo Banner — 1920x650 native ratio, no cropping */}
+          <div className="relative w-full aspect-[1920/650] bg-[#F4F1EC] overflow-hidden">
             <Image
               src="/images/design-mode/himalaya-banner-1.png"
               alt="Himalaya Wellness Offer"
               fill
               unoptimized
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>
 
-          {/* Logo Divider */}
-          <div className="w-full py-8 flex flex-col items-center justify-center bg-[#F4F1EC]">
+          {/* Logo Divider — logo already contains "Since 1930", no extra text */}
+          <div className="w-full py-8 flex items-center justify-center bg-[#F4F1EC]">
             <Image
               src="/images/design-mode/himalaya-logo.png"
               alt="Himalaya Wellness"
-              width={72}
-              height={72}
+              width={80}
+              height={80}
               className="object-contain"
             />
-            <div className="mt-2 text-[#005F6B] text-xs tracking-[0.3em] font-medium">
-              SINCE 1930
-            </div>
           </div>
 
           {/* Feedback Section */}
@@ -508,13 +500,13 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               </div>
             </div>
 
-            {/* Items */}
+            {/* Items — all four value columns right-aligned so they line up with the totals block below */}
             <div className="space-y-2 mb-4">
               {currentReceipt.items.map((item) => (
                 <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-3">
                   <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleItemExpand(item.id)}>
                     <div className="flex items-center flex-1">
-                      <ChevronRight className={`h-3.5 w-3.5 mr-2 text-[#005F6B] transition-transform duration-200 ${expandedItems.includes(item.id) ? "rotate-90" : ""}`} />
+                      <ChevronRight className={`h-3.5 w-3.5 mr-2 text-[#005F6B] transition-transform duration-200 shrink-0 ${expandedItems.includes(item.id) ? "rotate-90" : ""}`} />
                       <div>
                         <div className="text-sm font-medium text-gray-900">{item.name}</div>
                         {item.discount > 0 && (
@@ -524,7 +516,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-4 gap-1 mt-2.5 pt-2.5 border-t border-gray-100 text-[11px]">
+                  <div className="grid grid-cols-4 gap-2 mt-2.5 pt-2.5 border-t border-gray-100 text-[11px] text-right">
                     <div>
                       <div className="text-gray-400 text-[9px] uppercase">Qty</div>
                       <div className="font-medium text-gray-700">{item.qty}</div>
@@ -573,26 +565,29 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
           </div>
 
-          {/* Barcode */}
-          <div className="px-4 py-5 bg-white flex flex-col items-center border-t border-gray-100">
-            <div className="font-mono tracking-[3px] text-2xl text-gray-800 select-none">
-              || ||| | |||| || | ||| |||| | || |||
-            </div>
-            <div className="text-xs text-gray-500 mt-1">{currentReceipt.id}</div>
+          {/* Barcode — static PNG asset with numbers baked in */}
+          <div className="px-4 py-6 bg-white flex flex-col items-center border-t border-gray-100">
+            <Image
+              src="/images/design-mode/49681292_9185593.png"
+              alt="Bill Barcode"
+              width={240}
+              height={100}
+              className="object-contain"
+            />
           </div>
 
-          {/* Store Details */}
-          <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 text-center space-y-1.5">
-            <div className="flex items-center justify-center gap-1.5 text-xs text-gray-600">
-              <Mail className="h-3 w-3 text-[#005F6B]" />
+          {/* Store Details — tight, consistent icon-text alignment */}
+          <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <Mail className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
               <span>contactus@himalayawellness.com</span>
             </div>
-            <div className="flex items-center justify-center gap-1.5 text-xs text-gray-600">
-              <Phone className="h-3 w-3 text-[#005F6B]" />
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <Phone className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
               <span>080-67549111</span>
             </div>
-            <div className="flex items-start justify-center gap-1.5 text-xs text-gray-600 mt-2">
-              <MapPin className="h-3 w-3 text-[#005F6B] mt-0.5 shrink-0" />
+            <div className="flex items-center gap-2 text-xs text-gray-600 text-center max-w-[280px]">
+              <MapPin className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
               <span>Himalaya Wellness Company, Makali, Bengaluru, Karnataka 562123</span>
             </div>
           </div>
