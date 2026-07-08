@@ -553,17 +553,17 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
           </div>
 
-          {/* Barcode — static PNG asset, tight vertical padding, hover-icon suppressed */}
-          <div className="pt-3 pb-2 bg-white flex flex-col items-center border-t border-gray-100">
-            <div className="relative w-[220px] h-[130px]">
-              <Image
-                src="/images/design-mode/49681292_9185593.png"
-                alt="Bill Barcode"
-                fill
-                className="object-contain pointer-events-none"
-              />
-            </div>
-          </div>
+          {/* Barcode */}
+<div className="pt-1 pb-0 bg-white flex flex-col items-center border-t border-gray-100">
+  <div className="relative w-[280px] h-[150px]">
+    <Image
+      src="/images/design-mode/49681292_9185593.png"
+      alt="Bill Barcode"
+      fill
+      className="object-contain pointer-events-none"
+    />
+  </div>
+</div>
 
           {/* Store Details — icon top-aligned with first line, left-aligned wrapping text */}
           <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 flex flex-col items-center gap-2">
