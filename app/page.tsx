@@ -57,7 +57,7 @@ export default function Home() {
           qty: 1,
           unitAmt: 199,
           discount: 20,
-          discountDescription: "10% Off – App Offer",
+          discountDescription: "10% Off",
           totalAmt: 179,
         },
         {
@@ -368,8 +368,8 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
                 <Image
                   src="/images/design-mode/himalaya-logo.png"
                   alt="Himalaya Wellness"
-                  width={140}
-                  height={140}
+                  width={160}
+                  height={160}
                   className="object-contain"
                 />
               </div>
@@ -392,13 +392,13 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             />
           </div>
 
-          {/* Logo Divider — logo already contains "Since 1930", no extra text */}
-          <div className="w-full py-8 flex items-center justify-center bg-[#F4F1EC]">
+          {/* Logo Divider — bigger logo, tighter vertical padding */}
+          <div className="w-full py-5 flex items-center justify-center bg-[#F4F1EC]">
             <Image
               src="/images/design-mode/himalaya-logo.png"
               alt="Himalaya Wellness"
-              width={80}
-              height={80}
+              width={108}
+              height={108}
               className="object-contain"
             />
           </div>
@@ -500,45 +500,33 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               </div>
             </div>
 
-            {/* Items — all four value columns right-aligned so they line up with the totals block below */}
+            {/* Items — Taco Bell style: QTY over amount on the right, details collapsed */}
             <div className="space-y-2 mb-4">
               {currentReceipt.items.map((item) => (
                 <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-3">
                   <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleItemExpand(item.id)}>
-                    <div className="flex items-center flex-1">
+                    <div className="flex items-center flex-1 min-w-0">
                       <ChevronRight className={`h-3.5 w-3.5 mr-2 text-[#005F6B] transition-transform duration-200 shrink-0 ${expandedItems.includes(item.id) ? "rotate-90" : ""}`} />
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate">{item.name}</div>
                         {item.discount > 0 && (
                           <div className="text-[10px] text-[#E67733] font-medium mt-0.5">{item.discountDescription}</div>
                         )}
                       </div>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-4 gap-2 mt-2.5 pt-2.5 border-t border-gray-100 text-[11px] text-right">
-                    <div>
-                      <div className="text-gray-400 text-[9px] uppercase">Qty</div>
-                      <div className="font-medium text-gray-700">{item.qty}</div>
-                    </div>
-                    <div>
-                      <div className="text-gray-400 text-[9px] uppercase">Unit Amt</div>
-                      <div className="font-medium text-gray-700">₹{item.unitAmt.toFixed(2)}</div>
-                    </div>
-                    <div>
-                      <div className="text-gray-400 text-[9px] uppercase">Discount</div>
-                      <div className="font-medium text-gray-700">₹{item.discount.toFixed(2)}</div>
-                    </div>
-                    <div>
-                      <div className="text-gray-400 text-[9px] uppercase">Total Amt</div>
-                      <div className="font-semibold text-[#005F6B]">₹{item.totalAmt.toFixed(2)}</div>
+                    <div className="text-right shrink-0 pl-3">
+                      <div className="text-[10px] text-gray-400">Qty {item.qty}</div>
+                      <div className="text-sm font-semibold text-[#005F6B]">₹{item.totalAmt.toFixed(2)}</div>
                     </div>
                   </div>
 
                   {expandedItems.includes(item.id) && (
-                    <div className="mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-y-1 text-[11px] text-gray-500">
+                    <div className="mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-y-1.5 text-[11px] text-gray-500">
                       <div>HSN Code: {item.hsnCode}</div>
                       <div className="text-right">Size: {item.size}</div>
+                      <div>Unit Amt: ₹{item.unitAmt.toFixed(2)}</div>
+                      <div className="text-right">Discount: ₹{item.discount.toFixed(2)}</div>
                     </div>
                   )}
                 </div>
@@ -565,18 +553,19 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
           </div>
 
-          {/* Barcode — static PNG asset with numbers baked in */}
-          <div className="px-4 py-6 bg-white flex flex-col items-center border-t border-gray-100">
-            <Image
-              src="/images/design-mode/49681292_9185593.png"
-              alt="Bill Barcode"
-              width={240}
-              height={100}
-              className="object-contain"
-            />
+          {/* Barcode — static PNG asset, tight vertical padding, hover-icon suppressed */}
+          <div className="pt-3 pb-2 bg-white flex flex-col items-center border-t border-gray-100">
+            <div className="relative w-[220px] h-[80px]">
+              <Image
+                src="/images/design-mode/49681292_9185593.png"
+                alt="Bill Barcode"
+                fill
+                className="object-contain pointer-events-none"
+              />
+            </div>
           </div>
 
-          {/* Store Details — tight, consistent icon-text alignment */}
+          {/* Store Details — icon top-aligned with first line, left-aligned wrapping text */}
           <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 flex flex-col items-center gap-2">
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Mail className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
@@ -586,9 +575,9 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               <Phone className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
               <span>080-67549111</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-600 text-center max-w-[280px]">
-              <MapPin className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
-              <span>Himalaya Wellness Company, Makali, Bengaluru, Karnataka 562123</span>
+            <div className="flex items-start justify-center gap-1.5 text-xs text-gray-600 max-w-[240px] mx-auto">
+              <MapPin className="h-3.5 w-3.5 text-[#005F6B] shrink-0 mt-0.5" />
+              <span className="text-left leading-relaxed">Himalaya Wellness Company, Makali, Bengaluru, Karnataka 562123</span>
             </div>
           </div>
 
