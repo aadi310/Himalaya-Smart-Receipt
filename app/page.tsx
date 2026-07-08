@@ -555,7 +555,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
 
           {/* Barcode — static PNG asset, tight vertical padding, hover-icon suppressed */}
           <div className="pt-3 pb-2 bg-white flex flex-col items-center border-t border-gray-100">
-            <div className="relative w-[220px] h-[80px]">
+            <div className="relative w-[220px] h-[120px]">
               <Image
                 src="/images/design-mode/49681292_9185593.png"
                 alt="Bill Barcode"
