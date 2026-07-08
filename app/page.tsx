@@ -554,7 +554,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
           </div>
 
           {/* Barcode — static PNG asset, tight vertical padding, hover-icon suppressed */}
-          <div className="pt-2 pb-1 bg-white flex flex-col items-center border-t border-gray-100">
+          <div className="py-4 bg-white flex flex-col items-center border-t border-gray-100">
             <div className="relative w-[220px] h-[120px]">
               <Image
                 src="/images/design-mode/49681292_9185593.png"
@@ -652,7 +652,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
                   <div className="bg-[#005F6B] p-2 rounded-lg mr-3">
                     <History className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Bill History</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Your Bills</h3>
                 </div>
                 <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100" onClick={() => setShowTransactionHistory(false)}>
                   <XIcon className="h-4 w-4 text-gray-500" />
