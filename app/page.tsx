@@ -206,7 +206,7 @@ export default function Home() {
   const [showNeedHelp, setShowNeedHelp] = useState(false)
   const [needHelpOption, setNeedHelpOption] = useState("cannot-see-bill")
 
-  // ---------- Download receipt ----------
+  // ---------- Download receipt (no barcode) ----------
   const handleDownloadReceipt = () => {
     const receiptContent = `
 <!DOCTYPE html>
@@ -214,14 +214,12 @@ export default function Home() {
 <head>
 <meta charset="UTF-8">
 <title>Himalaya Wellness Digital Receipt</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#fff;width:800px;margin:0 auto;padding:24px;}
-.hero{padding:20px 0 24px;border-bottom:1px solid #eee;margin-bottom:20px;}
-.hero h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;color:#161616;text-transform:uppercase;font-style:italic;}
-.hero p{font-size:11px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-top:4px;}
-.receipt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.receipt-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid #005F6B;}
+.company-info h1{font-size:26px;color:#005F6B;font-weight:700;margin-bottom:4px;}
 .company-info p{font-size:12px;color:#555;line-height:1.4;}
 .bill-info{text-align:right;font-size:12px;}
 .bill-info div{margin-bottom:4px;}
@@ -245,14 +243,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
 </head>
 <body>
 
-<div class="hero">
-  <h1>Thank You, ${currentReceipt.customerName}</h1>
-  <p>Summary of your Himalaya Wellness purchase</p>
-</div>
-
 <div class="receipt-header">
   <div class="company-info">
-    <p>Tax Invoice · Himalaya Wellness Company · Since 1930</p>
+    <h1>Himalaya Wellness Company</h1>
+    <p>Tax Invoice · Since 1930</p>
   </div>
   <div class="bill-info">
     <div><strong>Bill No:</strong> <span class="bill-id">${currentReceipt.id}</span></div>
@@ -321,6 +315,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
 
   const receiptContainerRef = useRef<HTMLDivElement>(null)
 
+  // Auto-height for WordPress iframe
   useEffect(() => {
     const postHeight = () => {
       const marker = document.getElementById("height-marker")
@@ -361,10 +356,13 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {/* ---------------- Splash intro overlay ---------------- */}
         {showSplash && (
           <div className="splash-wrap fixed inset-0 z-[9999] bg-[#F4F1EC] flex flex-col items-center max-w-md mx-auto">
+            {/* Bars pinned to top */}
             <div className="w-full flex flex-col gap-1.5 mt-12">
               <div className="bar-thick h-4 bg-[#005F6B]" />
               <div className="bar-thin h-2 bg-[#005F6B]" />
             </div>
+
+            {/* Logo appears centered in remaining space, only after bars finish */}
             <div className="flex-1 flex items-center justify-center">
               <div className="logo-fade">
                 <Image
@@ -382,7 +380,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {/* ---------------- Main content ---------------- */}
         <div className={`flex flex-col w-full transition-opacity duration-500 ${showSplash ? "opacity-0" : "opacity-100"}`}>
 
-          {/* Promo Banner */}
+          {/* Promo Banner — 1920x650 native ratio, no cropping */}
           <div className="relative w-full aspect-[1920/650] bg-[#F4F1EC] overflow-hidden">
             <Image
               src="/images/design-mode/himalaya-banner-1.png"
@@ -394,41 +392,18 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             />
           </div>
 
-          {/* ---------------- Hero: Thank You statement, no card, no QR, no amount ---------------- */}
-{/* ---------------- Hero: Thank You statement, no card, no QR, no amount ---------------- */}
-<div className="px-5 py-5 bg-[#F4F1EC]">
-  <div className="flex items-center justify-between">
-    <Image
-      src="/images/design-mode/himalaya-logo.png"
-      alt="Himalaya Wellness"
-      width={110}
-      height={110}
-      className="object-contain shrink-0"
-    />
+          {/* Logo Divider — bigger logo, tighter vertical padding */}
+          <div className="w-full py-5 flex items-center justify-center bg-[#F4F1EC]">
+            <Image
+              src="/images/design-mode/himalaya-logo.png"
+              alt="Himalaya Wellness"
+              width={108}
+              height={108}
+              className="object-contain"
+            />
+          </div>
 
-    <div className="flex flex-col gap-2.5">
-      <div className="text-right">
-        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">POS</div>
-        <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.pos}</div>
-      </div>
-      <div className="text-right">
-        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Brand Specialist</div>
-        <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.brandSpecialist}</div>
-      </div>
-      <div className="text-right">
-        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Bill ID</div>
-        <div className="text-sm font-bold text-[#161616] mt-0.5">#{currentReceipt.id}</div>
-      </div>
-      <div className="text-right">
-        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Date & Time</div>
-        <div className="text-sm font-bold text-[#161616] mt-0.5">
-          {currentReceipt.date} <span className="text-gray-300 mx-0.5">•</span> {currentReceipt.time}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-        {/* Feedback Section */}
+          {/* Feedback Section */}
           <div className="px-4 py-5 bg-white">
             {feedbackSubmitted ? (
               <div className="text-center py-6 bg-green-50 rounded-xl border border-green-100">
@@ -493,8 +468,27 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               <div className="text-base font-semibold text-gray-900 mt-1">Himalaya Wellness Company</div>
             </div>
 
-            {/* Meta grid — POS + Brand Specialist live here now, plus customer info */}
-      
+            {/* Meta grid */}
+            <div className="bg-white rounded-xl border border-gray-200 p-3 grid grid-cols-2 gap-y-2 gap-x-2 text-xs mb-3">
+              <div>
+                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Date & Time</div>
+                <div className="font-medium text-gray-800">{currentReceipt.date} {currentReceipt.time}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-gray-400 text-[10px] uppercase tracking-wide">POS</div>
+                <div className="font-medium text-gray-800">{currentReceipt.pos}</div>
+              </div>
+              <div>
+                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Bill No</div>
+                <div className="font-medium text-gray-800">{currentReceipt.id}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Brand Specialist</div>
+                <div className="font-medium text-gray-800">{currentReceipt.brandSpecialist}</div>
+              </div>
+            </div>
+
+            {/* Customer grid */}
             <div className="bg-white rounded-xl border border-gray-200 p-3 grid grid-cols-2 gap-y-2 text-xs mb-4">
               <div>
                 <div className="text-gray-400 text-[10px] uppercase tracking-wide">Customer Name</div>
@@ -506,7 +500,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               </div>
             </div>
 
-            {/* Items */}
+            {/* Items — Taco Bell style: QTY over amount on the right, details collapsed */}
             <div className="space-y-2 mb-4">
               {currentReceipt.items.map((item) => (
                 <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-3">
@@ -559,7 +553,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
           </div>
 
-          {/* Barcode */}
+          {/* Barcode — static PNG asset, tight vertical padding, hover-icon suppressed */}
           <div className="pt-3 pb-2 bg-white flex flex-col items-center border-t border-gray-100">
             <div className="relative w-[220px] h-[80px]">
               <Image
@@ -571,7 +565,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
           </div>
 
-          {/* Store Details */}
+          {/* Store Details — icon top-aligned with first line, left-aligned wrapping text */}
           <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 flex flex-col items-center gap-2">
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Mail className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
@@ -615,6 +609,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </a>
           </div>
 
+          {/* spacer so sticky bottom bar doesn't cover content */}
           <div className="h-16" />
           <div id="height-marker" style={{ height: "1px" }} />
         </div>
@@ -657,7 +652,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
                   <div className="bg-[#005F6B] p-2 rounded-lg mr-3">
                     <History className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Bill History</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Your Bills</h3>
                 </div>
                 <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100" onClick={() => setShowTransactionHistory(false)}>
                   <XIcon className="h-4 w-4 text-gray-500" />
