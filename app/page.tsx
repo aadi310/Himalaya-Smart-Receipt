@@ -394,73 +394,44 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             />
           </div>
 
-          {/* ---------------- Hero: bold "Thank You" card, Puma-style ---------------- */}
-          <div className="px-4 pt-5 pb-2 bg-[#F4F1EC]">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          {/* ---------------- Hero: Thank You statement, no card, no QR, no amount ---------------- */}
+<div className="px-5 pt-7 pb-6 bg-[#F4F1EC]">
+  <Image
+    src="/images/design-mode/himalaya-logo.png"
+    alt="Himalaya Wellness"
+    width={44}
+    height={44}
+    className="object-contain mb-4"
+  />
 
-              {/* Logo + QR row */}
-              <div className="flex items-start justify-between p-5 pb-0">
-                <Image
-                  src="/images/design-mode/himalaya-logo.png"
-                  alt="Himalaya Wellness"
-                  width={56}
-                  height={56}
-                  className="object-contain"
-                />
-                <div className="bg-gray-50 rounded-xl p-2">
-                  <Image
-                    src="/images/design-mode/himalaya-qr.png"
-                    alt="Scan for offers"
-                    width={64}
-                    height={64}
-                    className="object-contain"
-                  />
-                </div>
-              </div>
+  <h1 className="text-2xl font-extrabold italic uppercase tracking-tight text-[#161616] leading-tight">
+    Thank You, {currentReceipt.customerName}
+  </h1>
+  <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase mt-1.5">
+    Summary of your Himalaya Wellness purchase
+  </p>
 
-              {/* Thank you statement */}
-              <div className="px-5 pt-4">
-                <h1 className="text-2xl font-extrabold italic uppercase tracking-tight text-[#161616] leading-tight">
-                  Thank You, {currentReceipt.customerName}
-                </h1>
-                <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase mt-1.5">
-                  Summary of your Himalaya Wellness purchase
-                </p>
-              </div>
-
-              <div className="border-t border-gray-100 mt-4" />
-
-              {/* Total amount + Paid pill */}
-              <div className="px-5 py-4 flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] tracking-[0.2em] text-gray-400 uppercase">Total Amount (Incl. Taxes)</div>
-                  <div className="text-3xl font-black text-[#161616] mt-1 tracking-tight">
-                    ₹{currentReceipt.total.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                </div>
-                <div className="bg-[#005F6B] text-white text-[11px] font-bold tracking-wide uppercase px-4 py-1.5 rounded-full">
-                  Paid
-                </div>
-              </div>
-
-              <div className="border-t border-gray-100" />
-
-              {/* Receipt ID + Date & Time */}
-              <div className="px-5 py-4 flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] tracking-[0.2em] text-gray-400 uppercase">Receipt ID</div>
-                  <div className="text-sm font-bold text-[#161616] mt-0.5">#{currentReceipt.id}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[10px] tracking-[0.2em] text-gray-400 uppercase">Date & Time</div>
-                  <div className="text-sm font-bold text-[#161616] mt-0.5">
-                    {currentReceipt.date} <span className="text-gray-300 mx-0.5">•</span> {currentReceipt.time}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
+  <div className="mt-6 grid grid-cols-2 gap-y-4">
+    <div>
+      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Bill ID</div>
+      <div className="text-sm font-bold text-[#161616] mt-0.5">#{currentReceipt.id}</div>
+    </div>
+    <div className="text-right">
+      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Date & Time</div>
+      <div className="text-sm font-bold text-[#161616] mt-0.5">
+        {currentReceipt.date} <span className="text-gray-300 mx-0.5">•</span> {currentReceipt.time}
+      </div>
+    </div>
+    <div>
+      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">POS</div>
+      <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.pos}</div>
+    </div>
+    <div className="text-right">
+      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Brand Specialist</div>
+      <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.brandSpecialist}</div>
+    </div>
+  </div>
+</div>
           {/* Feedback Section */}
           <div className="px-4 py-5 bg-white">
             {feedbackSubmitted ? (
