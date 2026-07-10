@@ -356,13 +356,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {/* ---------------- Splash intro overlay ---------------- */}
         {showSplash && (
           <div className="splash-wrap fixed inset-0 z-[9999] bg-[#F4F1EC] flex flex-col items-center max-w-md mx-auto">
-            {/* Bars pinned to top */}
             <div className="w-full flex flex-col gap-1.5 mt-12">
               <div className="bar-thick h-4 bg-[#005F6B]" />
               <div className="bar-thin h-2 bg-[#005F6B]" />
             </div>
-
-            {/* Logo appears centered in remaining space, only after bars finish */}
             <div className="flex-1 flex items-center justify-center">
               <div className="logo-fade">
                 <Image
@@ -380,7 +377,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {/* ---------------- Main content ---------------- */}
         <div className={`flex flex-col w-full transition-opacity duration-500 ${showSplash ? "opacity-0" : "opacity-100"}`}>
 
-          {/* Promo Banner — 1920x650 native ratio, no cropping */}
+          {/* Promo Banner */}
           <div className="relative w-full aspect-[1920/650] bg-[#F4F1EC] overflow-hidden">
             <Image
               src="/images/design-mode/himalaya-banner-1.png"
@@ -392,15 +389,40 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             />
           </div>
 
-          {/* Logo Divider — bigger logo, tighter vertical padding */}
-          <div className="w-full py-5 flex items-center justify-center bg-[#F4F1EC]">
-            <Image
-              src="/images/design-mode/himalaya-logo.png"
-              alt="Himalaya Wellness"
-              width={108}
-              height={108}
-              className="object-contain"
-            />
+          {/* Logo Divider + Bill Meta Strip (ticket-stub style, not a card) */}
+          <div className="w-full bg-[#F4F1EC]">
+            <div className="py-5 flex items-center justify-center">
+              <Image
+                src="/images/design-mode/himalaya-logo.png"
+                alt="Himalaya Wellness"
+                width={108}
+                height={108}
+                className="object-contain"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 border-t border-b border-[#005F6B]/20 divide-x divide-[#005F6B]/20">
+              <div className="grid grid-rows-2 divide-y divide-[#005F6B]/20 border-r border-[#005F6B]/20">
+                <div className="py-2.5 px-4 text-center">
+                  <div className="text-[9px] tracking-[0.15em] text-[#005F6B]/60 uppercase">Bill No</div>
+                  <div className="text-xs font-semibold text-[#005F6B] mt-0.5 truncate">{currentReceipt.id}</div>
+                </div>
+                <div className="py-2.5 px-4 text-center">
+                  <div className="text-[9px] tracking-[0.15em] text-[#005F6B]/60 uppercase">Date & Time</div>
+                  <div className="text-xs font-semibold text-[#005F6B] mt-0.5">{currentReceipt.date}, {currentReceipt.time}</div>
+                </div>
+              </div>
+              <div className="grid grid-rows-2 divide-y divide-[#005F6B]/20">
+                <div className="py-2.5 px-4 text-center">
+                  <div className="text-[9px] tracking-[0.15em] text-[#005F6B]/60 uppercase">POS</div>
+                  <div className="text-xs font-semibold text-[#005F6B] mt-0.5">{currentReceipt.pos}</div>
+                </div>
+                <div className="py-2.5 px-4 text-center">
+                  <div className="text-[9px] tracking-[0.15em] text-[#005F6B]/60 uppercase">Brand Specialist</div>
+                  <div className="text-xs font-semibold text-[#005F6B] mt-0.5">{currentReceipt.brandSpecialist}</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Feedback Section */}
@@ -461,31 +483,11 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             )}
           </div>
 
-          {/* Tax Invoice Card */}
+          {/* Tax Invoice Card — meta info now lives in the ticket strip above, so this opens straight into customer + items */}
           <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100">
             <div className="text-center mb-4">
               <div className="text-[11px] tracking-[0.2em] text-gray-500 font-medium">TAX INVOICE</div>
               <div className="text-base font-semibold text-gray-900 mt-1">Himalaya Wellness Company</div>
-            </div>
-
-            {/* Meta grid */}
-            <div className="bg-white rounded-xl border border-gray-200 p-3 grid grid-cols-2 gap-y-2 gap-x-2 text-xs mb-3">
-              <div>
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Date & Time</div>
-                <div className="font-medium text-gray-800">{currentReceipt.date} {currentReceipt.time}</div>
-              </div>
-              <div className="text-right">
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">POS</div>
-                <div className="font-medium text-gray-800">{currentReceipt.pos}</div>
-              </div>
-              <div>
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Bill No</div>
-                <div className="font-medium text-gray-800">{currentReceipt.id}</div>
-              </div>
-              <div className="text-right">
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Brand Specialist</div>
-                <div className="font-medium text-gray-800">{currentReceipt.brandSpecialist}</div>
-              </div>
             </div>
 
             {/* Customer grid */}
@@ -500,7 +502,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
               </div>
             </div>
 
-            {/* Items — Taco Bell style: QTY over amount on the right, details collapsed */}
+            {/* Items */}
             <div className="space-y-2 mb-4">
               {currentReceipt.items.map((item) => (
                 <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-3">
@@ -554,18 +556,18 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
           </div>
 
           {/* Barcode */}
-<div className="pt-1 pb-0 bg-white flex flex-col items-center border-t border-gray-100">
-  <div className="relative w-[280px] h-[150px]">
-    <Image
-      src="/images/design-mode/49681292_9185593.png"
-      alt="Bill Barcode"
-      fill
-      className="object-contain pointer-events-none"
-    />
-  </div>
-</div>
+          <div className="pt-3 pb-2 bg-white flex flex-col items-center border-t border-gray-100">
+            <div className="relative w-[220px] h-[80px]">
+              <Image
+                src="/images/design-mode/49681292_9185593.png"
+                alt="Bill Barcode"
+                fill
+                className="object-contain pointer-events-none"
+              />
+            </div>
+          </div>
 
-          {/* Store Details — icon top-aligned with first line, left-aligned wrapping text */}
+          {/* Store Details */}
           <div className="px-4 py-5 bg-[#FBFAF7] border-t border-gray-100 flex flex-col items-center gap-2">
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <Mail className="h-3.5 w-3.5 text-[#005F6B] shrink-0" />
@@ -609,7 +611,6 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </a>
           </div>
 
-          {/* spacer so sticky bottom bar doesn't cover content */}
           <div className="h-16" />
           <div id="height-marker" style={{ height: "1px" }} />
         </div>
@@ -652,7 +653,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
                   <div className="bg-[#005F6B] p-2 rounded-lg mr-3">
                     <History className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Your Bills</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Bill History</h3>
                 </div>
                 <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100" onClick={() => setShowTransactionHistory(false)}>
                   <XIcon className="h-4 w-4 text-gray-500" />
