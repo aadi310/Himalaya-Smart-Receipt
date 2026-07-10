@@ -399,17 +399,10 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
   <Image
     src="/images/design-mode/himalaya-logo.png"
     alt="Himalaya Wellness"
-    width={44}
-    height={44}
+    width={84}
+    height={84}
     className="object-contain mb-4"
   />
-
-  <h1 className="text-2xl font-extrabold italic uppercase tracking-tight text-[#161616] leading-tight">
-    Thank You, {currentReceipt.customerName}
-  </h1>
-  <p className="text-[10px] tracking-[0.2em] text-gray-400 uppercase mt-1.5">
-    Summary of your Himalaya Wellness purchase
-  </p>
 
   <div className="mt-6 grid grid-cols-2 gap-y-4">
     <div>
@@ -498,17 +491,7 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
             </div>
 
             {/* Meta grid — POS + Brand Specialist live here now, plus customer info */}
-            <div className="bg-white rounded-xl border border-gray-200 p-3 grid grid-cols-2 gap-y-2 gap-x-2 text-xs mb-3">
-              <div>
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">POS</div>
-                <div className="font-medium text-gray-800">{currentReceipt.pos}</div>
-              </div>
-              <div className="text-right">
-                <div className="text-gray-400 text-[10px] uppercase tracking-wide">Brand Specialist</div>
-                <div className="font-medium text-gray-800">{currentReceipt.brandSpecialist}</div>
-              </div>
-            </div>
-
+      
             <div className="bg-white rounded-xl border border-gray-200 p-3 grid grid-cols-2 gap-y-2 text-xs mb-4">
               <div>
                 <div className="text-gray-400 text-[10px] uppercase tracking-wide">Customer Name</div>
