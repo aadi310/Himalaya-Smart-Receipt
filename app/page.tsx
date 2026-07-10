@@ -395,14 +395,28 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
           </div>
 
           {/* ---------------- Hero: Thank You statement, no card, no QR, no amount ---------------- */}
+{/* ---------------- Hero: Thank You statement, no card, no QR, no amount ---------------- */}
 <div className="px-5 pt-7 pb-6 bg-[#F4F1EC]">
-  <Image
-    src="/images/design-mode/himalaya-logo.png"
-    alt="Himalaya Wellness"
-    width={84}
-    height={84}
-    className="object-contain mb-4"
-  />
+  <div className="flex items-start justify-between">
+    <Image
+      src="/images/design-mode/himalaya-logo.png"
+      alt="Himalaya Wellness"
+      width={84}
+      height={84}
+      className="object-contain"
+    />
+
+    <div className="flex flex-col gap-2 pt-1">
+      <div className="text-right">
+        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">POS</div>
+        <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.pos}</div>
+      </div>
+      <div className="text-right">
+        <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Brand Specialist</div>
+        <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.brandSpecialist}</div>
+      </div>
+    </div>
+  </div>
 
   <div className="mt-6 grid grid-cols-2 gap-y-4">
     <div>
@@ -415,17 +429,9 @@ body{font-family:'Poppins',sans-serif;font-size:14px;color:#1a1a1a;background:#f
         {currentReceipt.date} <span className="text-gray-300 mx-0.5">•</span> {currentReceipt.time}
       </div>
     </div>
-    <div>
-      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">POS</div>
-      <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.pos}</div>
-    </div>
-    <div className="text-right">
-      <div className="text-[10px] tracking-[0.15em] text-gray-400 uppercase">Brand Specialist</div>
-      <div className="text-sm font-bold text-[#161616] mt-0.5">{currentReceipt.brandSpecialist}</div>
-    </div>
   </div>
 </div>
-          {/* Feedback Section */}
+        {/* Feedback Section */}
           <div className="px-4 py-5 bg-white">
             {feedbackSubmitted ? (
               <div className="text-center py-6 bg-green-50 rounded-xl border border-green-100">
